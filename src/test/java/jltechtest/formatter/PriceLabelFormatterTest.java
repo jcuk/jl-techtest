@@ -18,41 +18,62 @@ public class PriceLabelFormatterTest {
 		price = new Price();
 	}
 	
-	@Test
-	public void testFormatCurrencyInteger() {		
-		assertEquals("£10", PriceLabelFormatter.formatCurrency("10.00", "GBP"));
-		assertEquals("£10", PriceLabelFormatter.formatCurrency("10.01", "GBP"));
-		assertEquals("£10", PriceLabelFormatter.formatCurrency("10.10", "GBP"));
-		assertEquals("£10", PriceLabelFormatter.formatCurrency("10.99", "GBP"));
-		assertEquals("£11", PriceLabelFormatter.formatCurrency("11.00", "GBP"));
-		
+	@Test	
+	public void testFormatCurrencyLargerValues() { 
 		assertEquals("£22", PriceLabelFormatter.formatCurrency("22.00", "GBP"));
-		assertEquals("£22", PriceLabelFormatter.formatCurrency("22.01", "GBP"));
-		assertEquals("£22", PriceLabelFormatter.formatCurrency("22.50", "GBP"));
-		assertEquals("£22", PriceLabelFormatter.formatCurrency("22.99", "GBP"));
-		assertEquals("£22", PriceLabelFormatter.formatCurrency("22.09", "GBP"));
+		assertEquals("£22.01", PriceLabelFormatter.formatCurrency("22.01", "GBP"));
+		assertEquals("£22.50", PriceLabelFormatter.formatCurrency("22.50", "GBP"));
+		assertEquals("£22.99", PriceLabelFormatter.formatCurrency("22.99", "GBP"));
+		assertEquals("£22.09", PriceLabelFormatter.formatCurrency("22.09", "GBP"));
+		assertEquals("£23", PriceLabelFormatter.formatCurrency("23.00", "GBP"));
+		assertEquals("£24", PriceLabelFormatter.formatCurrency("24.00", "GBP"));
+		assertEquals("£40", PriceLabelFormatter.formatCurrency("40.00", "GBP"));
+		assertEquals("£50", PriceLabelFormatter.formatCurrency("50.00", "GBP"));
+		assertEquals("£50.05", PriceLabelFormatter.formatCurrency("50.05", "GBP"));
+		assertEquals("£50.50", PriceLabelFormatter.formatCurrency("50.50", "GBP"));
+		assertEquals("£100", PriceLabelFormatter.formatCurrency("100.00", "GBP"));
 	}
 	
 	@Test
-	public void testFormatCurrencyRounding() {
+	public void testFormatCurrencySmallValues() {
 		assertEquals("£0.00", PriceLabelFormatter.formatCurrency("0", "GBP"));
 		assertEquals("£0.01", PriceLabelFormatter.formatCurrency(".01", "GBP"));
 		assertEquals("£1.00", PriceLabelFormatter.formatCurrency("1", "GBP"));
 		assertEquals("£1.00", PriceLabelFormatter.formatCurrency("1.00", "GBP"));
+		
+		assertEquals("£6.00", PriceLabelFormatter.formatCurrency("6", "GBP"));
+		assertEquals("£7.00", PriceLabelFormatter.formatCurrency("7.0", "GBP"));
+		assertEquals("£8.00", PriceLabelFormatter.formatCurrency("8.00", "GBP"));
+		assertEquals("£9.00", PriceLabelFormatter.formatCurrency("9.00", "GBP"));
 	}
 	
 	@Test
-	public void testFormatCurrencyEUR() {
+	public void testFormatCurrencyEURSmallValues() {
 		assertEquals("€0.00", PriceLabelFormatter.formatCurrency("0", "EUR"));
 		assertEquals("€0.01", PriceLabelFormatter.formatCurrency(".01", "EUR"));
 		assertEquals("€1.00", PriceLabelFormatter.formatCurrency("1", "EUR"));
 		assertEquals("€1.00", PriceLabelFormatter.formatCurrency("1.00", "EUR"));
 		
-		assertEquals("€10", PriceLabelFormatter.formatCurrency("10.00", "EUR"));
-		assertEquals("€10", PriceLabelFormatter.formatCurrency("10.01", "EUR"));
-		assertEquals("€10", PriceLabelFormatter.formatCurrency("10.10", "EUR"));
-		assertEquals("€10", PriceLabelFormatter.formatCurrency("10.99", "EUR"));
-		assertEquals("€11", PriceLabelFormatter.formatCurrency("11.00", "EUR"));
+		assertEquals("€6.00", PriceLabelFormatter.formatCurrency("6", "EUR"));
+		assertEquals("€7.00", PriceLabelFormatter.formatCurrency("7.0", "EUR"));
+		assertEquals("€8.00", PriceLabelFormatter.formatCurrency("8.00", "EUR"));
+		assertEquals("€9.00", PriceLabelFormatter.formatCurrency("9.00", "EUR"));
+	}
+	
+	@Test
+	public void testFormatCurrencyLargerValuesEUR() {
+		assertEquals("€22", PriceLabelFormatter.formatCurrency("22.00", "EUR"));
+		assertEquals("€22.01", PriceLabelFormatter.formatCurrency("22.01", "EUR"));
+		assertEquals("€22.50", PriceLabelFormatter.formatCurrency("22.50", "EUR"));
+		assertEquals("€22.99", PriceLabelFormatter.formatCurrency("22.99", "EUR"));
+		assertEquals("€22.09", PriceLabelFormatter.formatCurrency("22.09", "EUR"));
+		assertEquals("€23", PriceLabelFormatter.formatCurrency("23.00", "EUR"));
+		assertEquals("€24", PriceLabelFormatter.formatCurrency("24.00", "EUR"));
+		assertEquals("€40", PriceLabelFormatter.formatCurrency("40.00", "EUR"));
+		assertEquals("€50", PriceLabelFormatter.formatCurrency("50.00", "EUR"));
+		assertEquals("€50.05", PriceLabelFormatter.formatCurrency("50.05", "EUR"));
+		assertEquals("€50.50", PriceLabelFormatter.formatCurrency("50.50", "EUR"));
+		assertEquals("€100", PriceLabelFormatter.formatCurrency("100.00", "EUR"));
 	}
 	
 	@Test
@@ -92,7 +113,7 @@ public class PriceLabelFormatterTest {
 	}
 	
 	@Test
-	public void testWasNowIntegerWithRounding() {
+	public void testWasNowLargerDecimal() {
 		price.setCurrency("GBP");
 		price.setNow("85.49");
 		price.setWas("110.50");
@@ -101,44 +122,39 @@ public class PriceLabelFormatterTest {
 		
 		final String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
 		
-		assertEquals("Was £110, now £85", label, "Was now");
+		assertEquals("Was £110.50, now £85.49", label, "Was now");
 	}
 	
 	@Test
-	public void testWasNowIntegerWithRounding2() {
+	public void testWasNowSmallerDecimal() {
 		price.setCurrency("GBP");
 		price.setNow("10.01");
 		price.setWas("11.99");
 		price.setThen1("11.50");
 		price.setThen2("10.50");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
 		
-		assertEquals("Was £11, now £10", label, "Was now");
-	}
-	
-	@Test
-	public void testWasNowDecimal() {
+		assertEquals("Was £11.99, now £10.01", label, "Was now");
+
+		
 		price.setCurrency("GBP");
 		price.setNow("6.50");
 		price.setWas("9.99");
 		price.setThen1("8.50");
 		price.setThen2("7.50");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
 		
 		assertEquals("Was £9.99, now £6.50", label, "Was now");
-	}
-	
-	@Test
-	public void testWasNowDecimal2() {
+
 		price.setCurrency("GBP");
 		price.setNow("1");
 		price.setWas("9");
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
 		
 		assertEquals("Was £9.00, now £1.00", label, "Was now");
 	}
@@ -147,7 +163,7 @@ public class PriceLabelFormatterTest {
 	 * Test formatting when prices drop below £1 (not mentioned in spec - assumed to be £0.xx)
 	 */
 	@Test
-	public void testWasNowDecimal3() {
+	public void testWasNowSmallDecimal() {
 		price.setCurrency("GBP");
 		price.setNow("0.40");
 		price.setWas("0.99");
@@ -198,7 +214,7 @@ public class PriceLabelFormatterTest {
 	 * 
 	 */
 	@Test
-	public void testWasThenNow() {
+	public void testWasThenNowInteger() {
 		price.setCurrency("GBP");
 		price.setNow("85.00");
 		price.setWas("110.00");
@@ -256,30 +272,26 @@ public class PriceLabelFormatterTest {
 	}
 	
 	@Test
-	public void testWasThenNowIntegerWithRounding() {
+	public void testWasThenNowLargerDecimal() {
 		price.setCurrency("GBP");
 		price.setNow("85.49");
 		price.setWas("110.50");
 		price.setThen1("95.00");
 		price.setThen2("90.00");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
 		
-		assertEquals("Was £110, then £90, now £85", label, "Was then now");
-	}
-	
-	@Test
-	public void testWasThenNowIntegerWithRounding2() {
+		assertEquals("Was £110.50, then £90, now £85.49", label, "Was then now");
+
 		price.setCurrency("GBP");
-		price.setNow("10.01");
+		price.setNow("10.00");
 		price.setWas("11.99");
 		price.setThen1("11.50");
 		price.setThen2("10.50");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
 		
-		//NB seems wrong but spec does not cover this case of then=now price
-		assertEquals("Was £11, then £10, now £10", label, "Was then now");
+		assertEquals("Was £11.99, then £10.50, now £10", label, "Was then now");
 	}
 	
 	@Test
@@ -296,7 +308,7 @@ public class PriceLabelFormatterTest {
 	}
 	
 	@Test
-	public void testWasThenNowDecimal2() {
+	public void testWasThenNowSmallInteger() {
 		price.setCurrency("GBP");
 		price.setNow("1");
 		price.setWas("9");
@@ -312,7 +324,7 @@ public class PriceLabelFormatterTest {
 	 * Test formatting when prices drop below £1 (not mentioned in spec - assumed to be £0.xx)
 	 */
 	@Test
-	public void testWasThenNowDecimal3() {
+	public void testWasThenNowSmallDecimal() {
 		price.setCurrency("GBP");
 		price.setNow("0.40");
 		price.setWas("0.99");
@@ -356,4 +368,5 @@ public class PriceLabelFormatterTest {
 		
 		assertEquals("", label, "Was then now");
 	}
+
 }
