@@ -12,6 +12,7 @@ public class Product {
 	private String productId = "";
 	private String title = "";
 	private ColorSwatch[] colorSwatches = new ColorSwatch[0];
+	private Price price;
 	
 	public String getProductId() {
 		return productId;
@@ -38,6 +39,14 @@ public class Product {
 			colorSwatches = new ColorSwatch[0];
 		}
 		this.colorSwatches = colorSwatches;
+	}
+	
+	public Price getPrice() {
+		return price;
+	}
+
+	public void setPrice(Price price) {
+		this.price = price;
 	}
 	
 }
