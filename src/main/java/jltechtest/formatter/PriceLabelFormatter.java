@@ -17,7 +17,6 @@ import jltechtest.data.Price;
  * @author jason
  *
  */
-@Component
 public class PriceLabelFormatter {
 	private static final Logger LOG = LogManager.getLogger();
 
@@ -27,7 +26,6 @@ public class PriceLabelFormatter {
 	public enum PriceFormat {
 		WasNow(
 			(p)-> {
-				//
 				return String.format("Was %s, now %s",
 					PriceLabelFormatter.formatCurrency(p.getWas(), p.getCurrency()),
 					PriceLabelFormatter.formatCurrency(p.getNow(), p.getCurrency()));
@@ -36,8 +34,20 @@ public class PriceLabelFormatter {
 		
 		WasThenNow(
 			(p)-> {
-				//"Was %s, then %s, now %s",
-				return "";
+				String then = p.getThen2();
+				if (then == null || then.isEmpty()) {
+					then = p.getThen1();
+					//No then1 or then 2, default to the WasNow format (omit the 'then..')
+					if (then == null || then.isEmpty()) {
+						return WasNow.getFormat(p);
+					}					
+				}
+				
+				return String.format("Was %s, then %s, now %s",
+					PriceLabelFormatter.formatCurrency(p.getWas(), p.getCurrency()),
+					PriceLabelFormatter.formatCurrency(then, p.getCurrency()),
+					PriceLabelFormatter.formatCurrency(p.getNow(), p.getCurrency()));
+
 			}
 		),
 		
@@ -58,8 +68,11 @@ public class PriceLabelFormatter {
 			return this.format.apply(price);
 		}
 	}
+	
+	private PriceLabelFormatter() {
+	}
 
-	public String format(final Price price, final PriceFormat priceFormat) {
+	public static String format(final Price price, final PriceFormat priceFormat) {
 		try {
 			return priceFormat.getFormat(price);
 		} catch (Exception e) {

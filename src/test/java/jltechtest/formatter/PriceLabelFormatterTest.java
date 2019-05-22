@@ -6,9 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import jltechtest.PriceLabelFormatter;
 import jltechtest.data.Price;
-import jltechtest.PriceLabelFormatter.PriceFormat;
+
+import jltechtest.formatter.PriceLabelFormatter.PriceFormat;
 
 public class PriceLabelFormatterTest {	
 	private Price price;
@@ -190,5 +190,170 @@ public class PriceLabelFormatterTest {
 		label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
 		
 		assertEquals("", label, "Was now");
+	}
+	
+	
+	
+	/** Test that was then now uses then2 if present
+	 * 
+	 */
+	@Test
+	public void testWasThenNow() {
+		price.setCurrency("GBP");
+		price.setNow("85.00");
+		price.setWas("110.00");
+		price.setThen1("95.00");
+		price.setThen2("90.00");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £110, then £90, now £85", label, "Was then now");
+	}
+	
+	/** Test that was then now uses then1 if then 2 not present, or empty
+	 * 
+	 */
+	@Test
+	public void testWasThenNowNoThen2() {
+		price.setCurrency("GBP");
+		price.setNow("85.00");
+		price.setWas("110.00");
+		price.setThen1("95.00");
+		price.setThen2("");
+		
+		String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £110, then £95, now £85", label, "Was then now");
+		
+		price.setThen2(null);
+		
+		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £110, then £95, now £85", label, "Was then now");
+	}
+	
+	/** Test that was then now omits 'then..' if then1 and then2 not present, or empty
+	 * 
+	 */
+	@Test
+	public void testWasThenNowNoThen1or2() {
+		price.setCurrency("GBP");
+		price.setNow("85.00");
+		price.setWas("110.00");
+		price.setThen1(null);
+		price.setThen2(null);
+		
+		String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £110, now £85", label, "Was then now");
+		
+		price.setThen1("");
+		price.setThen2("");
+		
+		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £110, now £85", label, "Was then now");
+	}
+	
+	@Test
+	public void testWasThenNowIntegerWithRounding() {
+		price.setCurrency("GBP");
+		price.setNow("85.49");
+		price.setWas("110.50");
+		price.setThen1("95.00");
+		price.setThen2("90.00");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £110, then £90, now £85", label, "Was then now");
+	}
+	
+	@Test
+	public void testWasThenNowIntegerWithRounding2() {
+		price.setCurrency("GBP");
+		price.setNow("10.01");
+		price.setWas("11.99");
+		price.setThen1("11.50");
+		price.setThen2("10.50");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		//NB seems wrong but spec does not cover this case of then=now price
+		assertEquals("Was £11, then £10, now £10", label, "Was then now");
+	}
+	
+	@Test
+	public void testWasThenNowDecimal() {
+		price.setCurrency("GBP");
+		price.setNow("6.50");
+		price.setWas("9.99");
+		price.setThen1("8.50");
+		price.setThen2("7.50");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £9.99, then £7.50, now £6.50", label, "Was then now");
+	}
+	
+	@Test
+	public void testWasThenNowDecimal2() {
+		price.setCurrency("GBP");
+		price.setNow("1");
+		price.setWas("9");
+		price.setThen1("8");
+		price.setThen2("7");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £9.00, then £7.00, now £1.00", label, "Was then now");
+	}
+	
+	/**
+	 * Test formatting when prices drop below £1 (not mentioned in spec - assumed to be £0.xx)
+	 */
+	@Test
+	public void testWasThenNowDecimal3() {
+		price.setCurrency("GBP");
+		price.setNow("0.40");
+		price.setWas("0.99");
+		price.setThen1(".80");
+		price.setThen2(".79");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("Was £0.99, then £0.79, now £0.40", label, "Was now");
+	}
+	
+	@Test
+	public void testWasThenNowInvalid() {
+		price.setCurrency("GBP");
+		price.setNow("0x40");
+		price.setWas("0.99");
+		price.setThen1("8");
+		price.setThen2("7");
+		
+		String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("", label, "Was then now");
+		
+		price.setCurrency("GBP");
+		price.setNow("0.40");
+		price.setWas("");
+		price.setThen1("8");
+		price.setThen2("7");
+		
+		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("", label, "Was then now");
+		
+		price.setCurrency("GBP");
+		price.setNow("0.40");
+		price.setWas(null);
+		price.setThen1("8");
+		price.setThen2("7");
+		
+		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		
+		assertEquals("", label, "Was then now");
 	}
 }
