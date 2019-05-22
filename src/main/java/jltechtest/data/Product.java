@@ -13,6 +13,7 @@ public class Product {
 	private String title = "";
 	private ColorSwatch[] colorSwatches = new ColorSwatch[0];
 	private Price price;
+	private String priceLabel;
 	
 	public String getProductId() {
 		return productId;
@@ -24,6 +25,10 @@ public class Product {
 	
 	public ColorSwatch[] getColorSwatches() {
 		return colorSwatches;
+	}
+	
+	public String getPriceLabel() {
+		return priceLabel;
 	}
 	
 	public void setProductId(String productId) {
@@ -47,6 +52,10 @@ public class Product {
 
 	public void setPrice(Price price) {
 		this.price = price;
+	}
+
+	public void setPriceLabel(String priceLabel) {
+		this.priceLabel = priceLabel;
 	}
 	
 }
