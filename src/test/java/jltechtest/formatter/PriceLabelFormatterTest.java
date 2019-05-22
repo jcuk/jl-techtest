@@ -369,4 +369,81 @@ public class PriceLabelFormatterTest {
 		assertEquals("", label, "Was then now");
 	}
 
+	/** Test percentage off rounds
+	 * 
+	 */
+	@Test
+	public void testPercDiscountLargeInteger() {
+		price.setCurrency("GBP");
+		price.setNow("85.00");
+		price.setWas("110.00");
+		price.setThen1("95.00");
+		price.setThen2("90.00");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		
+		assertEquals("22% off - now £85", label, "Percent discount");
+	}
+	
+	/** Test percentage off rounds
+	 * 
+	 */
+	@Test
+	public void testPercDiscountLargeDecimal() {
+		price.setCurrency("GBP");
+		price.setNow("84.50");
+		price.setWas("110.00");
+		price.setThen1("95.00");
+		price.setThen2("90.00");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		
+		assertEquals("23% off - now £84.50", label, "Percent discount");
+	}
+
+	@Test
+	public void testPercDiscountSmallInteger() {
+		price.setCurrency("GBP");
+		price.setNow("8");
+		price.setWas("10");
+		price.setThen1("9");
+		price.setThen2("");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		
+		assertEquals("20% off - now £8.00", label, "Percent discount");
+	}
+	
+	@Test
+	public void testPercDiscountSmallerInteger() {
+		price.setCurrency("GBP");
+		price.setNow(".25");
+		price.setWas("1");
+		price.setThen1("9");
+		price.setThen2("");
+		
+		final String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		
+		assertEquals("75% off - now £0.25", label, "Percent discount");
+	}
+	
+	@Test
+	public void testPercDiscountInvalid() {
+		price.setCurrency("GBP");
+		price.setNow("");
+		price.setWas("10");
+		price.setThen1("9");
+		price.setThen2("");
+		
+		String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		
+		assertEquals("", label, "Percent discount");
+		
+		price.setNow("10");
+		price.setWas(null);
+		
+		label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		
+		assertEquals("", label, "Percent discount");
+	}	
 }

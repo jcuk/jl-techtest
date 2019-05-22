@@ -49,8 +49,17 @@ public class PriceLabelFormatter {
 		}),
 
 		PercDiscount((p) -> {
-//				"%d%%off - now %s",
-			return "";
+			//Use doubles to calculate percentages to avoid Non-terminating decimal expansion exception during
+			// division. (Discount percentages are rounded down, so we are not concerned with BigDecimal
+			// precision)
+			final double was = Double.valueOf(p.getWas());
+			final double now = Double.valueOf(p.getNow());
+			
+			final int discount = (int) (((was - now)/was) * 100);
+			
+			return String.format("%d%% off - now %s",
+				discount,
+				PriceLabelFormatter.formatCurrency(p.getNow(), p.getCurrency()));
 		});
 
 		final Function<Price, String> format;
@@ -110,6 +119,11 @@ public class PriceLabelFormatter {
 		}
 	}
 
+	/** Check if a given <code>BigDecimal</code> is an integer or not
+	 * 
+	 * @param decimal
+	 * @return true iff the given value is an integer
+	 */
 	private static boolean isIntegerValue(final BigDecimal decimal) {
 		return decimal.stripTrailingZeros().scale() <= 0;
 	}
