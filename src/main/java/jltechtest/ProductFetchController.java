@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import jltechtest.data.ColorSwatch;
+import jltechtest.data.Price;
 import jltechtest.data.Product;
+import jltechtest.formatter.PriceLabelFormatter;
 import jltechtest.formatter.RGBColourHelper;
 
 @Controller
@@ -40,9 +42,23 @@ public class ProductFetchController {
 
 	}
 	
+	/** Enriches the data on each product. This consists of:
+	 * <ul>
+	 * <li>Looking up the RGB colour</li>
+	 * <li>Populating the now price</li>
+	 * <li>populating the price label (TBD)</li>
+	 * </ul>
+	 * @param product
+	 */
 	private void enrichLabel(final Product product) {
+		//Populate the RGB information on the swatches
 		for (final ColorSwatch swatch : product.getColorSwatches()) {
 			swatch.setRgbColor(rgbColourHelper.colourToRGB(swatch.getBasicColor()));
+		}
+		
+		final Price price = product.getPrice();
+		if (price != null) {
+			product.setNowPrice(PriceLabelFormatter.formatCurrencyIgnoreErrors(price.getNow(), price.getCurrency()));
 		}
 	}
 

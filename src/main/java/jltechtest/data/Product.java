@@ -14,6 +14,7 @@ public class Product {
 	private ColorSwatch[] colorSwatches = new ColorSwatch[0];
 	private Price price;
 	private String priceLabel;
+	private String nowPrice;
 	
 	public String getProductId() {
 		return productId;
@@ -56,6 +57,14 @@ public class Product {
 
 	public void setPriceLabel(String priceLabel) {
 		this.priceLabel = priceLabel;
+	}
+
+	public String getNowPrice() {
+		return nowPrice;
+	}
+
+	public void setNowPrice(String nowPrice) {
+		this.nowPrice = nowPrice;
 	}
 	
 }

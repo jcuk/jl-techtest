@@ -73,9 +73,6 @@ public class PriceLabelFormatter {
 		}
 	}
 
-	private PriceLabelFormatter() {
-	}
-
 	/**
 	 * Format a price to one of the predefined formats
 	 * 
@@ -117,6 +114,29 @@ public class PriceLabelFormatter {
 			// Format currency as integer
 			return String.format("%s%d", symbol, amount.intValue());
 		}
+	}
+	
+	/**
+	 * Format a string based currency and value. Values >= 10 are returned as
+	 * integers e.g. 10.99 would return £10. Values < 10 are returned as decimal to
+	 * a fixed 2dp e.g. 4.5 would return £4.50. If any formatting errors occur, 
+	 * an empty string is returned
+	 * 
+	 * NB Unteseted other than EUR and GBP
+	 * 
+	 * @param value        String value of currency e.g. "1.20", "2", ".99", "200"
+	 *                     etc.
+	 * @param currencyCode ISO Currency code
+	 * @return 
+	 */
+	public static String formatCurrencyIgnoreErrors(final String value, final String currencyCode) {
+		try {
+			return formatCurrency(value, currencyCode); 
+		} catch (Exception e) {
+			LOG.info("Cant parse currency of value {} currency code {}",value, currencyCode);
+			return "";
+		}
+		
 	}
 
 	/** Check if a given <code>BigDecimal</code> is an integer or not
