@@ -18,7 +18,7 @@ import jltechtest.data.Product;
 import jltechtest.formatter.RGBColourHelper;
 
 @SpringBootTest(classes= {ProductFetchController.class, RGBColourHelper.class})
-public class ProductFecthControllerTest {
+public class ProductFetchControllerTest {
 	
 	@Autowired
 	private ProductFetchController productFectchController;
@@ -42,11 +42,11 @@ public class ProductFecthControllerTest {
 		product4.setColorSwatches(createColourSwatchArray("grey"));
 		product5.setColorSwatches(null);
 		
-		product1.setPrice(makePrice("1.99","GBP"));
-		product2.setPrice(makePrice("10.00","GBP"));
-		product3.setPrice(makePrice("50.00", "EUR"));
-		product4.setPrice(makePrice("50.50","GBP"));
-		product5.setPrice(makePrice("invalid","GBP"));
+		product1.setPrice(makePrice("1.99", "5.99", "GBP"));
+		product2.setPrice(makePrice("10.00","20.50","GBP"));
+		product3.setPrice(makePrice("50.00", "100.00", "EUR","90.00"));
+		product4.setPrice(makePrice("50.50", "100.00", "GBP","90.00","85.50"));
+		product5.setPrice(makePrice("invalid","","","","GBP"));
 		
 				
 		products.add(product1);
@@ -104,6 +104,44 @@ public class ProductFecthControllerTest {
 		assertEquals("Now price for not a valid price", "", product5.getNowPrice());
 	}
 	
+	@Test
+	public void testWasNowPriceLabel() {
+		final List<Product> products = productFectchController.getDiscountedProducts();
+		
+		assertEquals("Number of products",5,products.size());
+		
+		final Product product1 = products.get(0);
+		final Product product2 = products.get(1);
+		final Product product3 = products.get(2);
+		final Product product4 = products.get(3);
+		final Product product5 = products.get(4);
+		
+		assertEquals("Was now price", "Was £5.99, now £1.99", product1.getPriceLabel());
+		assertEquals("Was now price", "Was £20.50, now £10", product2.getPriceLabel());
+		assertEquals("Was now price", "Was €100, now €50", product3.getPriceLabel());
+		assertEquals("Was now price", "Was £100, now £50.50", product4.getPriceLabel());
+		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
+	}
+	
+//	@Test
+//	public void testWasThenNowPriceLabel() {
+//		final List<Product> products = productFectchController.getDiscountedProducts();
+//		
+//		assertEquals("Number of products",5,products.size());
+//		
+//		final Product product1 = products.get(0);
+//		final Product product2 = products.get(1);
+//		final Product product3 = products.get(2);
+//		final Product product4 = products.get(3);
+//		final Product product5 = products.get(4);
+//		
+//		assertEquals("Was now price", "Was £5.99, now £1.99", product1.getPriceLabel());
+//		assertEquals("Was now price", "Was £20.50, now £10", product2.getPriceLabel());
+//		assertEquals("Was now price", "Was €100, then €90, now €50", product3.getPriceLabel());
+//		assertEquals("Was now price", "Was £100, then £85.50, now £50.50", product4.getPriceLabel());
+//		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
+//	}
+	
 	private ColorSwatch[] createColourSwatchArray(final String... colours) {
 		final List<ColorSwatch> colourswatches = new ArrayList<>();
 		for (final String colour : colours) {
@@ -115,11 +153,22 @@ public class ProductFecthControllerTest {
 		return colourswatches.toArray(new ColorSwatch[]{});
 	}
 	
-	private Price makePrice(final String now, final String currency) {
+	private Price makePrice(final String now, final String was, final String currency, final String then1, final String then2) {
 		final Price price = new Price();
 		price.setNow(now);
 		price.setCurrency(currency);
+		price.setThen1(then1);
+		price.setThen2(then2);
+		price.setWas(was);
 		return price;
+	}
+	
+	private Price makePrice(final String now, final String was, final String currency, final String then1) {
+		return makePrice(now, was, currency, then1, null);
+	}
+	
+	private Price makePrice(final String now, final String was, final String currency) {
+		return makePrice(now, was, currency, null, null);
 	}
 
 }
