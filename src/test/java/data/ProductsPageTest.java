@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jltechtest.TollerantObjectMapper;
 import jltechtest.data.ProductsPage;
+import jltechtest.data.parsing.TollerantObjectMapper;
 
 public class ProductsPageTest {
 	private static final ObjectMapper mapper = new TollerantObjectMapper().getMapper();

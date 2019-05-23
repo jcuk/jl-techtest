@@ -1,4 +1,4 @@
-package jltechtest.data;
+package jltechtest.formatter;
 
 import java.util.HashMap;
 import java.util.Map;

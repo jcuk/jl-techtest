@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import jltechtest.data.Product;
-import jltechtest.data.RGBColourHelper;
+import jltechtest.formatter.RGBColourHelper;
 
 @Controller
 public class ProductFetchController {

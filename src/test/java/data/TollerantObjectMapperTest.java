@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jltechtest.TollerantObjectMapper;
 import jltechtest.data.Price;
+import jltechtest.data.parsing.TollerantObjectMapper;
 
 public class TollerantObjectMapperTest {
 	private ObjectMapper mapper = new TollerantObjectMapper().getMapper();

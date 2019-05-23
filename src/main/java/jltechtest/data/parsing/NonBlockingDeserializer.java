@@ -1,4 +1,4 @@
-package jltechtest.data;
+package jltechtest.data.parsing;
 
 import java.io.IOException;
 

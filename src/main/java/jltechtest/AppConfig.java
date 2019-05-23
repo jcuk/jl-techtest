@@ -8,6 +8,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import jltechtest.data.parsing.TollerantObjectMapper;
+
 @Configuration
 @EnableConfigurationProperties
 public class AppConfig {
