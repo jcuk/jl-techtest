@@ -47,10 +47,10 @@ public class ProductFetchControllerTest {
 		product6.setColorSwatches(createColourSwatchArray("Yellow","Grey"));
 		product7.setColorSwatches(createColourSwatchArray("black"));
 		
-		product1.setPrice(makePrice("1.99", "5.99", "GBP"));
-		product2.setPrice(makePrice("10.00","20.50","GBP"));
-		product3.setPrice(makePrice("50.00", "100.00", "EUR","90.00"));
-		product4.setPrice(makePrice("50.50", "100.00", "GBP","90.00","85.50"));
+		product1.setPrice(makePrice("1.99", "5.99", "GBP"));					//03.00 reduction
+		product2.setPrice(makePrice("10.00","20.50","GBP"));					//10.50 reduction
+		product3.setPrice(makePrice("50.00", "100.00", "EUR","90.00"));			//50.00 reduction
+		product4.setPrice(makePrice("50.50", "100.00", "GBP","90.00","85.50")); //49.50 reduction
 		product5.setPrice(makePrice("invalid","","","","GBP"));
 		product6.setPrice(makePrice("1.99", "", "GBP")); // No was price - filter out
 		product7.setPrice(makePrice("fifty", "forty", "GBP")); // Invalid price
@@ -79,15 +79,15 @@ public class ProductFetchControllerTest {
 		final Product product4 = products.get(3);
 		final Product product5 = products.get(4);
 		
-		assertEquals("Red", "FF0000", product1.getColorSwatches()[0].getRgbColor());
-		assertEquals("Azure", "F0FFFF", product1.getColorSwatches()[1].getRgbColor());
+		assertEquals("Swatch array length for no swatches", 0, product1.getColorSwatches().length);
 		
-		assertEquals("Green", "008000", product2.getColorSwatches()[0].getRgbColor());
-		assertEquals("Brown", "A52A2A", product2.getColorSwatches()[1].getRgbColor());
+		assertEquals("Grey", "808080", product2.getColorSwatches()[0].getRgbColor());
 		
-		assertEquals("Swatch array length for no swatches", 0, product3.getColorSwatches().length);
+		assertEquals("Green", "008000", product3.getColorSwatches()[0].getRgbColor());
+		assertEquals("Brown", "A52A2A", product3.getColorSwatches()[1].getRgbColor());
 		
-		assertEquals("Grey", "808080", product4.getColorSwatches()[0].getRgbColor());
+		assertEquals("Red", "FF0000", product4.getColorSwatches()[0].getRgbColor());
+		assertEquals("Azure", "F0FFFF", product4.getColorSwatches()[1].getRgbColor());
 		
 		assertEquals("Black", "000000", product5.getColorSwatches()[0].getRgbColor());
 	}
@@ -104,10 +104,13 @@ public class ProductFetchControllerTest {
 		final Product product4 = products.get(3);
 		final Product product5 = products.get(4);
 		
-		assertEquals("Now price", "£1.99", product1.getNowPrice());
-		assertEquals("Now price", "£10", product2.getNowPrice());
-		assertEquals("Now price", "€50", product3.getNowPrice());
-		assertEquals("Now price", "£50.50", product4.getNowPrice());
+		//Sorted into reduction (not price) order
+		assertEquals("Now price", "€50", product1.getNowPrice()); //3
+		assertEquals("Now price", "£50.50", product2.getNowPrice()); //4
+		assertEquals("Now price", "£10", product3.getNowPrice()); //2
+		assertEquals("Now price", "£1.99", product4.getNowPrice()); //1
+		
+		//Invalid price reduction - last
 		assertEquals("Now price for not a valid price", "", product5.getNowPrice());
 	}
 	
@@ -123,10 +126,10 @@ public class ProductFetchControllerTest {
 		final Product product4 = products.get(3);
 		final Product product5 = products.get(4);
 		
-		assertEquals("Was now price", "Was £5.99, now £1.99", product1.getPriceLabel());
-		assertEquals("Was now price", "Was £20.50, now £10", product2.getPriceLabel());
-		assertEquals("Was now price", "Was €100, now €50", product3.getPriceLabel());
-		assertEquals("Was now price", "Was £100, now £50.50", product4.getPriceLabel());
+		assertEquals("Was now price", "Was €100, now €50", product1.getPriceLabel());
+		assertEquals("Was now price", "Was £100, now £50.50", product2.getPriceLabel());
+		assertEquals("Was now price", "Was £20.50, now £10", product3.getPriceLabel());
+		assertEquals("Was now price", "Was £5.99, now £1.99", product4.getPriceLabel());
 		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
 	}
 	
@@ -142,10 +145,10 @@ public class ProductFetchControllerTest {
 		final Product product4 = products.get(3);
 		final Product product5 = products.get(4);
 		
-		assertEquals("Was now price", "Was £5.99, now £1.99", product1.getPriceLabel());
-		assertEquals("Was now price", "Was £20.50, now £10", product2.getPriceLabel());
-		assertEquals("Was now price", "Was €100, then €90, now €50", product3.getPriceLabel());
-		assertEquals("Was now price", "Was £100, then £85.50, now £50.50", product4.getPriceLabel());
+		assertEquals("Was now price", "Was €100, then €90, now €50", product1.getPriceLabel());
+		assertEquals("Was now price", "Was £100, then £85.50, now £50.50", product2.getPriceLabel());
+		assertEquals("Was now price", "Was £20.50, now £10", product3.getPriceLabel());
+		assertEquals("Was now price", "Was £5.99, now £1.99", product4.getPriceLabel());
 		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
 	}
 	
@@ -161,10 +164,10 @@ public class ProductFetchControllerTest {
 		final Product product4 = products.get(3);
 		final Product product5 = products.get(4);
 		
-		assertEquals("Was now price", "66% off - now £1.99", product1.getPriceLabel());
-		assertEquals("Was now price", "51% off - now £10", product2.getPriceLabel());
-		assertEquals("Was now price", "50% off - now €50", product3.getPriceLabel());
-		assertEquals("Was now price", "49% off - now £50.50", product4.getPriceLabel());
+		assertEquals("Was now price", "50% off - now €50", product1.getPriceLabel());
+		assertEquals("Was now price", "49% off - now £50.50", product2.getPriceLabel());
+		assertEquals("Was now price", "51% off - now £10", product3.getPriceLabel());
+		assertEquals("Was now price", "66% off - now £1.99", product4.getPriceLabel());
 		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
 	}
 	

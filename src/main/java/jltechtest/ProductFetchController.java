@@ -28,14 +28,12 @@ public class ProductFetchController {
 	public List<Product> getDiscountedProducts(final PriceFormat priceFormat) {
 		final List<Product> products = productFetcher.getProducts();
 
-		//TODO: sort by highest price reduction
-		
 		LOG.info("Retrieved {} products from api",products.size());
 		
 		return productFetcher.getProducts().stream()
-				.filter(p -> hasPriceReduction(p))
-				// Fill in labels and colours on products
-				.map((p) -> enrichLabel(p, priceFormat))
+				.filter(p -> p.hasPriceReduction())
+				.sorted((p1,p2) -> p1.comparePriceReduction(p2))
+				.map(p -> enrichLabel(p, priceFormat))
 				.collect(Collectors.toList());
 
 	}
@@ -65,19 +63,5 @@ public class ProductFetchController {
 		}
 		
 		return product;
-	}
-	
-	/** Return true if the product has a price reduction i.e. if both the was and the
-	 * now field are present on the price
-	 * @param product
-	 * @return
-	 */
-	private boolean hasPriceReduction(final Product product) {
-		return 	product.getPrice() != null &&
-				product.getPrice().getWas() != null &&
-				product.getPrice().getNow() != null &&
-				!product.getPrice().getNow().isEmpty() &&
-				!product.getPrice().getWas().isEmpty();
-
 	}
 }
