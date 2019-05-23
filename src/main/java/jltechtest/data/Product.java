@@ -2,12 +2,12 @@ package jltechtest.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 /**
  * Data placeholder for Product JSON object
  * @author jason
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
 	private String productId = "";
 	private String title = "";
