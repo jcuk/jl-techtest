@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>jasoncrane</groupId>
 	<artifactId>jl-techtest</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>John Lewis Technical Test</name>
 
 	<parent>
@@ -19,7 +19,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
-				<dependency>
+		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
