@@ -69,7 +69,7 @@ public class ProductFetchControllerTest {
 	
 	@Test
 	public void testRgbLookup() {
-		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.WasNow);
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowWasNow);
 		
 		assertEquals("Number of products",5,products.size());
 		
@@ -94,7 +94,7 @@ public class ProductFetchControllerTest {
 	
 	@Test
 	public void testNowPrice() {
-		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.WasNow);
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowWasNow);
 		
 		assertEquals("Number of products",5,products.size());
 		
@@ -116,7 +116,7 @@ public class ProductFetchControllerTest {
 	
 	@Test
 	public void testWasNowPriceLabel() {
-		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.WasNow);
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowWasNow);
 		
 		assertEquals("Number of products",5,products.size());
 		
@@ -135,7 +135,7 @@ public class ProductFetchControllerTest {
 	
 	@Test
 	public void testWasThenNowPriceLabel() {
-		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.WasThenNow);
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Number of products",5,products.size());
 		
@@ -154,7 +154,7 @@ public class ProductFetchControllerTest {
 	
 	@Test
 	public void testShowPercPiscountPriceLabel() {
-		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.PercDiscount);
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowPercDscount);
 		
 		assertEquals("Number of products",5,products.size());
 		

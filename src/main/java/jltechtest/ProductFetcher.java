@@ -1,6 +1,7 @@
 package jltechtest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -8,7 +9,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
@@ -56,9 +60,13 @@ public class ProductFetcher {
 		
 		LOG.info("Getting products from {}", builder.toString());
 		
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+		final HttpEntity<String> entity = new HttpEntity<>("body", headers);
+		
 		final ResponseEntity<ProductsPage> response = restTemplate.exchange(builder.toUri(),
 			    HttpMethod.GET,
-			    null, //Headers etc
+			    entity,
 			    ProductsPage.class
 
 			);

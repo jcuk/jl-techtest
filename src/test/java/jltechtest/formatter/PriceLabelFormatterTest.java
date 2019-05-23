@@ -107,7 +107,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("95.00");
 		price.setThen2("90.00");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("Was £110, now £85", label, "Was now");
 	}
@@ -120,7 +120,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("95.00");
 		price.setThen2("90.00");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("Was £110.50, now £85.49", label, "Was now");
 	}
@@ -133,7 +133,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("11.50");
 		price.setThen2("10.50");
 		
-		String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("Was £11.99, now £10.01", label, "Was now");
 
@@ -144,7 +144,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8.50");
 		price.setThen2("7.50");
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("Was £9.99, now £6.50", label, "Was now");
 
@@ -154,7 +154,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("Was £9.00, now £1.00", label, "Was now");
 	}
@@ -170,7 +170,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("Was £0.99, now £0.40", label, "Was now");
 	}
@@ -183,7 +183,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		String label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("", label, "Was now");
 		
@@ -193,7 +193,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("", label, "Was now");
 		
@@ -203,7 +203,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasNow);
 		
 		assertEquals("", label, "Was now");
 	}
@@ -221,7 +221,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("95.00");
 		price.setThen2("90.00");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £110, then £90, now £85", label, "Was then now");
 	}
@@ -237,13 +237,13 @@ public class PriceLabelFormatterTest {
 		price.setThen1("95.00");
 		price.setThen2("");
 		
-		String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £110, then £95, now £85", label, "Was then now");
 		
 		price.setThen2(null);
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £110, then £95, now £85", label, "Was then now");
 	}
@@ -259,14 +259,14 @@ public class PriceLabelFormatterTest {
 		price.setThen1(null);
 		price.setThen2(null);
 		
-		String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £110, now £85", label, "Was then now");
 		
 		price.setThen1("");
 		price.setThen2("");
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £110, now £85", label, "Was then now");
 	}
@@ -279,7 +279,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("95.00");
 		price.setThen2("90.00");
 		
-		String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £110.50, then £90, now £85.49", label, "Was then now");
 
@@ -289,7 +289,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("11.50");
 		price.setThen2("10.50");
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £11.99, then £10.50, now £10", label, "Was then now");
 	}
@@ -302,7 +302,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8.50");
 		price.setThen2("7.50");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £9.99, then £7.50, now £6.50", label, "Was then now");
 	}
@@ -315,7 +315,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £9.00, then £7.00, now £1.00", label, "Was then now");
 	}
@@ -331,7 +331,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1(".80");
 		price.setThen2(".79");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Was £0.99, then £0.79, now £0.40", label, "Was now");
 	}
@@ -344,7 +344,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		String label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		String label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("", label, "Was then now");
 		
@@ -354,7 +354,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("", label, "Was then now");
 		
@@ -364,7 +364,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("8");
 		price.setThen2("7");
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.WasThenNow);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowWasThenNow);
 		
 		assertEquals("", label, "Was then now");
 	}
@@ -380,7 +380,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("95.00");
 		price.setThen2("90.00");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowPercDscount);
 		
 		assertEquals("22% off - now £85", label, "Percent discount");
 	}
@@ -396,7 +396,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("95.00");
 		price.setThen2("90.00");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowPercDscount);
 		
 		assertEquals("23% off - now £84.50", label, "Percent discount");
 	}
@@ -409,7 +409,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("9");
 		price.setThen2("");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowPercDscount);
 		
 		assertEquals("20% off - now £8.00", label, "Percent discount");
 	}
@@ -422,7 +422,7 @@ public class PriceLabelFormatterTest {
 		price.setThen1("9");
 		price.setThen2("");
 		
-		final String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		final String label = PriceLabelFormatter.format(price, PriceFormat.ShowPercDscount);
 		
 		assertEquals("75% off - now £0.25", label, "Percent discount");
 	}
@@ -435,14 +435,14 @@ public class PriceLabelFormatterTest {
 		price.setThen1("9");
 		price.setThen2("");
 		
-		String label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		String label = PriceLabelFormatter.format(price, PriceFormat.ShowPercDscount);
 		
 		assertEquals("", label, "Percent discount");
 		
 		price.setNow("10");
 		price.setWas(null);
 		
-		label = PriceLabelFormatter.format(price, PriceFormat.PercDiscount);
+		label = PriceLabelFormatter.format(price, PriceFormat.ShowPercDscount);
 		
 		assertEquals("", label, "Percent discount");
 	}	

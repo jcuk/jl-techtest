@@ -25,6 +25,12 @@ public class ProductFetchController {
 	@Autowired
 	private ProductFetcher productFetcher;
 	
+	/**
+	 * Returns a list of products that have price reductions, sorted
+	 * into price reduction order, with populated price labels
+	 * @param priceFormat
+	 * @return
+	 */
 	public List<Product> getDiscountedProducts(final PriceFormat priceFormat) {
 		final List<Product> products = productFetcher.getProducts();
 

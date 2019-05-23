@@ -26,18 +26,18 @@ public class PriceLabelFormatter {
 	private static final BigDecimal decimalThreshold = new BigDecimal(10);
 
 	public enum PriceFormat {
-		WasNow((p) -> {
+		ShowWasNow((p) -> {
 			return String.format("Was %s, now %s", PriceLabelFormatter.formatCurrency(p.getWas(), p.getCurrency()),
 					PriceLabelFormatter.formatCurrency(p.getNow(), p.getCurrency()));
 		}),
 
-		WasThenNow((p) -> {
+		ShowWasThenNow((p) -> {
 			String then = p.getThen2();
 			if (then == null || then.isEmpty()) {
 				then = p.getThen1();
 				// No then1 or then 2, default to the WasNow format (omit the 'then..')
 				if (then == null || then.isEmpty()) {
-					return WasNow.getFormat(p);
+					return ShowWasNow.getFormat(p);
 				}
 			}
 
@@ -48,7 +48,7 @@ public class PriceLabelFormatter {
 
 		}),
 
-		PercDiscount((p) -> {
+		ShowPercDscount((p) -> {
 			//Use doubles to calculate percentages to avoid Non-terminating decimal expansion exception during
 			// division. (Discount percentages are rounded down, so we are not concerned with BigDecimal
 			// precision)

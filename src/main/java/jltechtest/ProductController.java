@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("product")
@@ -26,10 +27,15 @@ public class ProductController {
 	}
 	
     @GetMapping(path="/discount", produces = "application/json")
-    public List<Product> getDiscountedProducts() {
-    	LOG.info("Getting discounted products");
-    	//TODO: parameterise format / default to was now
-        return fetchController.getDiscountedProducts(PriceFormat.WasNow);
+    public List<Product> getDiscountedProducts(@RequestParam(defaultValue="ShowWasNow") final String labelType) {
+    	PriceFormat priceFormat = PriceFormat.ShowWasNow;
+    	try {
+    		priceFormat = PriceFormat.valueOf(labelType);
+    	} catch (IllegalArgumentException | NullPointerException e) {
+    		LOG.warn("Unknown value for labelType parameter: {}",labelType);
+    	}
+    	LOG.info("Getting discounted products with pricing label {}",priceFormat);
+        return fetchController.getDiscountedProducts(priceFormat);
     }
     
 }
