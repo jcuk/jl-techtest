@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 import jltechtest.data.Product;
 
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,13 +25,9 @@ public class ProductController {
 	}
 	
     @GetMapping(path="/discount", produces = "application/json")
-    public Product[] index() {
-    	LOG.info("Getting discounted products");
-        final Product[] products = new Product[1];
-        
-        products[0] = new Product();
-        
-        return products;
+    public List<Product> getDiscountedProducts() {
+    	LOG.info("Getting discounted products");        
+        return fetchController.getDiscountedProducts();
     }
     
 }

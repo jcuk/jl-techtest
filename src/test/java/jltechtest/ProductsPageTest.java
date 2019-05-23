@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jltechtest.data.Products;
+import jltechtest.data.ProductsPage;
 
-public class ProductsTest {
+public class ProductsPageTest {
 	private static final ObjectMapper mapper = new TollerantObjectMapper().getMapper();
 	
 	@Test
@@ -21,7 +21,7 @@ public class ProductsTest {
 	public void testParsingProductsFromJson() throws Exception {
 		
 		final InputStream is = this.getClass().getClassLoader().getResourceAsStream("products.json");
-		final Products products = mapper.readValue(is, Products.class);
+		final ProductsPage products = mapper.readValue(is, ProductsPage.class);
 				
 		assertEquals(5648, products.getResults(), "Number of results");
 		assertEquals(113, products.getPagesAvailable(), "Pages avaialable");

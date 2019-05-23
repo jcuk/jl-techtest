@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Products {
+public class ProductsPage {
 	private ArrayList<Product> products;
 	private int results;
 	private int pagesAvailable;
