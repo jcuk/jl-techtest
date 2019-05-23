@@ -20,21 +20,21 @@ public class ProductControllerTest {
 	private ProductFetchController fetchController;
 	
 	@Test
-	public void testRequestParameterShowWasNow() {
+	public void testRequestParameterShowWasNow() throws Exception {
 		productController.getDiscountedProducts("ShowWasNow");
 		
 		Mockito.verify(fetchController).getDiscountedProducts(PriceFormat.ShowWasNow);
 	}
 	
 	@Test
-	public void testRequestParameterShowWasThenNow() {
+	public void testRequestParameterShowWasThenNow() throws Exception {
 		productController.getDiscountedProducts("ShowWasThenNow");
 		
 		Mockito.verify(fetchController).getDiscountedProducts(PriceFormat.ShowWasThenNow);
 	}
 	
 	@Test
-	public void testRequestParameterShowPercDiscount() {
+	public void testRequestParameterShowPercDiscount() throws Exception {
 		//Spelling of discount is like this in specification
 		productController.getDiscountedProducts("ShowPercDscount");
 		
@@ -42,14 +42,14 @@ public class ProductControllerTest {
 	}
 	
 	@Test
-	public void testRequestParameterInvalidValue() {
+	public void testRequestParameterInvalidValue() throws Exception {
 		productController.getDiscountedProducts("invalidValue");
 		
 		Mockito.verify(fetchController).getDiscountedProducts(PriceFormat.ShowWasNow);
 	}
 	
 	@Test
-	public void testRequestParameterMissingValue() {
+	public void testRequestParameterMissingValue() throws Exception {
 		productController.getDiscountedProducts(null);
 		
 		Mockito.verify(fetchController).getDiscountedProducts(PriceFormat.ShowWasNow);

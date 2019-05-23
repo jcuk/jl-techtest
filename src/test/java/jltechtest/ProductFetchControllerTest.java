@@ -36,7 +36,7 @@ public class ProductFetchControllerTest {
 	private Product product7 = new Product();
 	
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws Exception {
 		final List<Product>products = new ArrayList<>();
 				
 		product1.setColorSwatches(createColourSwatchArray("Red","Azure"));
@@ -68,7 +68,7 @@ public class ProductFetchControllerTest {
 	}
 	
 	@Test
-	public void testRgbLookup() {
+	public void testRgbLookup() throws Exception {
 		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowWasNow);
 		
 		assertEquals("Number of products",5,products.size());
@@ -93,7 +93,7 @@ public class ProductFetchControllerTest {
 	}
 	
 	@Test
-	public void testNowPrice() {
+	public void testNowPrice() throws Exception {
 		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowWasNow);
 		
 		assertEquals("Number of products",5,products.size());
@@ -115,7 +115,7 @@ public class ProductFetchControllerTest {
 	}
 	
 	@Test
-	public void testWasNowPriceLabel() {
+	public void testWasNowPriceLabel() throws Exception {
 		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowWasNow);
 		
 		assertEquals("Number of products",5,products.size());
@@ -134,7 +134,7 @@ public class ProductFetchControllerTest {
 	}
 	
 	@Test
-	public void testWasThenNowPriceLabel() {
+	public void testWasThenNowPriceLabel() throws Exception {
 		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowWasThenNow);
 		
 		assertEquals("Number of products",5,products.size());
@@ -153,7 +153,7 @@ public class ProductFetchControllerTest {
 	}
 	
 	@Test
-	public void testShowPercPiscountPriceLabel() {
+	public void testShowPercPiscountPriceLabel() throws Exception {
 		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.ShowPercDscount);
 		
 		assertEquals("Number of products",5,products.size());

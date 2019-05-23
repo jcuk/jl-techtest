@@ -1,6 +1,7 @@
 package jltechtest;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,13 +31,15 @@ public class ProductFetchController {
 	 * into price reduction order, with populated price labels
 	 * @param priceFormat
 	 * @return
+	 * @throws ExecutionException 
+	 * @throws InterruptedException 
 	 */
-	public List<Product> getDiscountedProducts(final PriceFormat priceFormat) {
+	public List<Product> getDiscountedProducts(final PriceFormat priceFormat) throws InterruptedException, ExecutionException {
 		final List<Product> products = productFetcher.getProducts();
 
 		LOG.info("Retrieved {} products from api",products.size());
 		
-		return productFetcher.getProducts().stream()
+		return products.stream()
 				.filter(p -> p.hasPriceReduction())
 				.sorted((p1,p2) -> p1.comparePriceReduction(p2))
 				.map(p -> enrichLabel(p, priceFormat))
