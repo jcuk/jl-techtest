@@ -84,7 +84,7 @@ public class PriceLabelFormatter {
 		try {
 			return priceFormat.getFormat(price);
 		} catch (Exception e) {
-			LOG.error("Error formatting currency in price label", e);
+			LOG.warn("Error formatting currency in price label", e.getMessage());
 		}
 		return "";
 	}

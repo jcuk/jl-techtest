@@ -3,6 +3,7 @@ package jltechtest;
 import org.springframework.web.bind.annotation.RestController;
 
 import jltechtest.data.Product;
+import jltechtest.formatter.PriceLabelFormatter.PriceFormat;
 
 import org.apache.logging.log4j.Logger;
 
@@ -26,8 +27,9 @@ public class ProductController {
 	
     @GetMapping(path="/discount", produces = "application/json")
     public List<Product> getDiscountedProducts() {
-    	LOG.info("Getting discounted products");        
-        return fetchController.getDiscountedProducts();
+    	LOG.info("Getting discounted products");
+    	//TODO: parameterise format / default to was now
+        return fetchController.getDiscountedProducts(PriceFormat.WasNow);
     }
     
 }

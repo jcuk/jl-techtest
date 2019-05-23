@@ -25,7 +25,7 @@ public class ProductFetchController {
 	@Autowired
 	private ProductFetcher productFetcher;
 	
-	public List<Product> getDiscountedProducts() {
+	public List<Product> getDiscountedProducts(final PriceFormat priceFormat) {
 		final List<Product> products = productFetcher.getProducts();
 
 		//TODO: Filter non discount items
@@ -35,7 +35,7 @@ public class ProductFetchController {
 		
 		return productFetcher.getProducts().stream()
 				.map((p) -> {
-					this.enrichLabel(p);
+					this.enrichLabel(p, priceFormat);
 					return p;
 				})
 				.collect(Collectors.toList());
@@ -49,8 +49,9 @@ public class ProductFetchController {
 	 * <li>populating the price label (TBD)</li>
 	 * </ul>
 	 * @param product
+	 * @param PriceFormat for the price label
 	 */
-	private void enrichLabel(final Product product) {
+	private void enrichLabel(final Product product, final PriceFormat format) {
 		//Populate the RGB information on the swatches
 		for (final ColorSwatch swatch : product.getColorSwatches()) {
 			swatch.setRgbColor(rgbColourHelper.colourToRGB(swatch.getBasicColor()));
@@ -63,7 +64,7 @@ public class ProductFetchController {
 			
 			//Populate the 'priceLabel' according to the selected format
 			//TODO: select format
-			product.setPriceLabel(PriceLabelFormatter.format(price, PriceFormat.WasNow));
+			product.setPriceLabel(PriceLabelFormatter.format(price, format));
 		}
 		
 

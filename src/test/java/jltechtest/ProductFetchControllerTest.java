@@ -16,6 +16,7 @@ import jltechtest.data.ColorSwatch;
 import jltechtest.data.Price;
 import jltechtest.data.Product;
 import jltechtest.formatter.RGBColourHelper;
+import jltechtest.formatter.PriceLabelFormatter.PriceFormat;
 
 @SpringBootTest(classes= {ProductFetchController.class, RGBColourHelper.class})
 public class ProductFetchControllerTest {
@@ -60,7 +61,7 @@ public class ProductFetchControllerTest {
 	
 	@Test
 	public void testRgbLookup() {
-		final List<Product> products = productFectchController.getDiscountedProducts();
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.WasNow);
 		
 		assertEquals("Number of products",5,products.size());
 		
@@ -87,7 +88,7 @@ public class ProductFetchControllerTest {
 	
 	@Test
 	public void testNowPrice() {
-		final List<Product> products = productFectchController.getDiscountedProducts();
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.WasNow);
 		
 		assertEquals("Number of products",5,products.size());
 		
@@ -106,7 +107,7 @@ public class ProductFetchControllerTest {
 	
 	@Test
 	public void testWasNowPriceLabel() {
-		final List<Product> products = productFectchController.getDiscountedProducts();
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.WasNow);
 		
 		assertEquals("Number of products",5,products.size());
 		
@@ -123,24 +124,43 @@ public class ProductFetchControllerTest {
 		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
 	}
 	
-//	@Test
-//	public void testWasThenNowPriceLabel() {
-//		final List<Product> products = productFectchController.getDiscountedProducts();
-//		
-//		assertEquals("Number of products",5,products.size());
-//		
-//		final Product product1 = products.get(0);
-//		final Product product2 = products.get(1);
-//		final Product product3 = products.get(2);
-//		final Product product4 = products.get(3);
-//		final Product product5 = products.get(4);
-//		
-//		assertEquals("Was now price", "Was £5.99, now £1.99", product1.getPriceLabel());
-//		assertEquals("Was now price", "Was £20.50, now £10", product2.getPriceLabel());
-//		assertEquals("Was now price", "Was €100, then €90, now €50", product3.getPriceLabel());
-//		assertEquals("Was now price", "Was £100, then £85.50, now £50.50", product4.getPriceLabel());
-//		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
-//	}
+	@Test
+	public void testWasThenNowPriceLabel() {
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.WasThenNow);
+		
+		assertEquals("Number of products",5,products.size());
+		
+		final Product product1 = products.get(0);
+		final Product product2 = products.get(1);
+		final Product product3 = products.get(2);
+		final Product product4 = products.get(3);
+		final Product product5 = products.get(4);
+		
+		assertEquals("Was now price", "Was £5.99, now £1.99", product1.getPriceLabel());
+		assertEquals("Was now price", "Was £20.50, now £10", product2.getPriceLabel());
+		assertEquals("Was now price", "Was €100, then €90, now €50", product3.getPriceLabel());
+		assertEquals("Was now price", "Was £100, then £85.50, now £50.50", product4.getPriceLabel());
+		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
+	}
+	
+	@Test
+	public void testShowPercPiscountPriceLabel() {
+		final List<Product> products = productFectchController.getDiscountedProducts(PriceFormat.PercDiscount);
+		
+		assertEquals("Number of products",5,products.size());
+		
+		final Product product1 = products.get(0);
+		final Product product2 = products.get(1);
+		final Product product3 = products.get(2);
+		final Product product4 = products.get(3);
+		final Product product5 = products.get(4);
+		
+		assertEquals("Was now price", "66% off - now £1.99", product1.getPriceLabel());
+		assertEquals("Was now price", "51% off - now £10", product2.getPriceLabel());
+		assertEquals("Was now price", "50% off - now €50", product3.getPriceLabel());
+		assertEquals("Was now price", "49% off - now £50.50", product4.getPriceLabel());
+		assertEquals("Label for not a valid price", "", product5.getPriceLabel());
+	}
 	
 	private ColorSwatch[] createColourSwatchArray(final String... colours) {
 		final List<ColorSwatch> colourswatches = new ArrayList<>();
