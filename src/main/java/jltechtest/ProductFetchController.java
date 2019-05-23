@@ -16,6 +16,11 @@ import jltechtest.formatter.PriceLabelFormatter;
 import jltechtest.formatter.PriceLabelFormatter.PriceFormat;
 import jltechtest.formatter.RGBColourHelper;
 
+/**
+ * Controller for fetching discounted products from the product API
+ * @author jason
+ *
+ */
 @Controller
 public class ProductFetchController {
 	private static final Logger LOG = LogManager.getLogger();
@@ -34,7 +39,7 @@ public class ProductFetchController {
 	 * @throws ExecutionException 
 	 * @throws InterruptedException 
 	 */
-	public List<Product> getDiscountedProducts(final PriceFormat priceFormat) throws InterruptedException, ExecutionException {
+	public List<Product> getDiscountedProducts(final PriceFormat priceFormat) {
 		final List<Product> products = productFetcher.getProducts();
 
 		LOG.info("Retrieved {} products from api",products.size());

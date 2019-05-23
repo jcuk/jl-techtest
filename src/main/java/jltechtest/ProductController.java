@@ -8,7 +8,6 @@ import jltechtest.formatter.PriceLabelFormatter.PriceFormat;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +15,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * Controller for retrieving discounted products in JSON
+ * @author jason
+ *
+ */
 @RestController
 @RequestMapping("product")
 public class ProductController {
 	private static final Logger LOG = LogManager.getLogger();
-	private final ProductFetchController fetchController;
 	
 	@Autowired
-	public ProductController(final ProductFetchController fetchController) {
-		this.fetchController = fetchController;
-	}
-	
+	private ProductFetchController fetchController;
+
     @GetMapping(path="/discount", produces = "application/json")
-    public List<Product> getDiscountedProducts(@RequestParam(defaultValue="ShowWasNow") final String labelType) throws InterruptedException, ExecutionException {
+    public List<Product> getDiscountedProducts(@RequestParam(defaultValue="ShowWasNow") final String labelType) {
     	PriceFormat priceFormat = PriceFormat.ShowWasNow;
     	try {
     		priceFormat = PriceFormat.valueOf(labelType);

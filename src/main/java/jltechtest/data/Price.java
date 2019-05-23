@@ -2,6 +2,11 @@ package jltechtest.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * Data placehoder object for Price JSON object
+ * @author jason
+ *
+ */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Price {
 	private String was;
