@@ -2,11 +2,15 @@ package jltechtest.data;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
 
 /** Helper class to map <a href="https://www.w3.org/wiki/CSS/Properties/color/keywords">w3.org colour names</a> to RGB values.
  * The data is read in pairs from local file in the format <colour>=<rr><gg><bb> e.g. aliceblue=f0f8ff
@@ -14,43 +18,38 @@ import org.apache.logging.log4j.Logger;
  * @author jason
  *
  */
+@Component
+@ConfigurationProperties("")
+@EnableConfigurationProperties
+@PropertySource("classpath:w3colours.properties")
 public class RGBColourHelper {
 	private static final Logger LOG = LogManager.getLogger();
+		
+	private Map<String, String> colours = new HashMap<>();
 	
-	private static final String COLOUR_PROPERTY_FILE = "w3colours.properties";
-	private static Map<String, String> colours = new HashMap<>();
-
-	static {
-		final Properties properties = new Properties();
-
-		try {
-			properties.load(ClassLoader.getSystemClassLoader().getResourceAsStream(COLOUR_PROPERTY_FILE));
-
-			colours.putAll(properties.entrySet().stream()
-					.collect(Collectors.toMap(
-							entry -> entry.getKey().toString().toLowerCase(),
-							entry -> entry.getValue().toString().toUpperCase())));
-			
-			LOG.info("Initalised RGB lookup with {} colours",colours.size());
-		} catch (Exception e) {
-			LOG.fatal("Failed to initalise RGB Helper",e);
-			throw new RuntimeException("Error initalising RGBColourHelper",e);
-		}
+    public void setColours(Map<String, String> colours) {
+		this.colours = colours;
 	}
+
+	public Map<String, String> getColours() {
+        return colours;
+    }
 	
-	private RGBColourHelper() {
+	@EventListener(ApplicationReadyEvent.class)
+	public void initMessage() {
+		LOG.info("Initalised RGB colour helper with {} colours",colours.size());
 	}
 
 	/**
 	 * Given a w3c colour, return the RGB code for that colour if it exists
-	 * @param colour
+	 * @param w3cColour
 	 * @return RGB code for that colour if it exists, otherwise empty string
 	 */
-	public static String colourToRGB(String colour) {
-		if (colour == null) {
+	public String colourToRGB(String w3cColour) {
+		if (w3cColour == null) {
 			return "";
 		}
-		final String rgb = colours.get(colour.trim().toLowerCase());
-		return rgb==null?"":rgb;
+		final String rgb = colours.get(w3cColour.trim().toLowerCase());
+		return rgb==null?"":rgb.toUpperCase();
 	}
 }

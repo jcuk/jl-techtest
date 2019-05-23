@@ -1,4 +1,4 @@
-package jltechtest;
+package data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jltechtest.TollerantObjectMapper;
 import jltechtest.data.Price;
 
 public class TollerantObjectMapperTest {

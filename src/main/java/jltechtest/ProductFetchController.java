@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import jltechtest.data.Product;
 import jltechtest.data.ProductsPage;
+import jltechtest.data.RGBColourHelper;
 
 @Controller
 public class ProductFetchController {
@@ -28,9 +29,8 @@ public class ProductFetchController {
 	@Autowired
 	private RestOperations restTemplate;
 	
-	public ProductFetchController(final RestOperations restTemplate) {
-		this.restTemplate = restTemplate;
-	}
+	@Autowired
+	private RGBColourHelper grbColourHelper;
 	
 	public List<Product> getDiscountedProducts() {
 		//TODO: Aggregate all pages
@@ -39,6 +39,8 @@ public class ProductFetchController {
 		//TODO: sort by highest price reduction
 
 		final List<Product> products = new ArrayList<>();
+		
+		grbColourHelper.colourToRGB("green");
 		
 		final ProductsPage productsPage = getfirstPage();
 		
