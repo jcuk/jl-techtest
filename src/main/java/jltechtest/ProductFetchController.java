@@ -23,7 +23,6 @@ public class ProductFetchController {
 	public List<Product> getDiscountedProducts() {
 		final List<Product> products = productFetcher.getProducts();
 
-		//TODO: Aggregate all pages
 		//TODO: Filter non discount items
 		//TODO: enrich labels
 		//TODO: sort by highest price reduction

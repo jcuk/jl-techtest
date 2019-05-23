@@ -1,4 +1,4 @@
-package data;
+package jltechtest.formatter;
 
 import static org.junit.Assert.assertEquals;
 

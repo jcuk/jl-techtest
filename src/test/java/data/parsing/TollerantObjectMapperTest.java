@@ -1,4 +1,4 @@
-package data;
+package data.parsing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
