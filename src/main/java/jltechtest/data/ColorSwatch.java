@@ -10,28 +10,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *
  */
 public class ColorSwatch {
-	private String color;
-	private String skuid;
+	private String basicColor;
+	private String skuId;
 	private String rgbColour;
 	
-	public String getColor() {
-		return color;
+	public String getBasicColor() {
+		return basicColor;
 	}
 	
 	public String getRgbColor() {
 		return rgbColour;
 	}
 	
-	public String getSkuid() {
-		return skuid;
+	public String getSkuId() {
+		return skuId;
 	}
 	
-	public void setColor(String color) {
-		this.color = color;
+	public void setBasicColor(String basicColor) {
+		this.basicColor = basicColor;
 	}
 	
-	public void setSkuid(String skuid) {
-		this.skuid = skuid;
+	public void setSkuId(String skuId) {
+		this.skuId = skuId;
 	}
 	
 	public void setRgbColor(String rgbColour) {
