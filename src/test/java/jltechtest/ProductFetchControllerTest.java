@@ -32,6 +32,8 @@ public class ProductFetchControllerTest {
 	private Product product3 = new Product();
 	private Product product4 = new Product();
 	private Product product5 = new Product();
+	private Product product6 = new Product();
+	private Product product7 = new Product();
 	
 	@BeforeEach
 	public void setUp() {
@@ -39,15 +41,19 @@ public class ProductFetchControllerTest {
 				
 		product1.setColorSwatches(createColourSwatchArray("Red","Azure"));
 		product2.setColorSwatches(createColourSwatchArray("Green","Brown"));
-		product3.setColorSwatches(createColourSwatchArray("Orange","Blue"));
+		product3.setColorSwatches(null);
 		product4.setColorSwatches(createColourSwatchArray("grey"));
-		product5.setColorSwatches(null);
+		product5.setColorSwatches(createColourSwatchArray("Orange","Blue"));
+		product6.setColorSwatches(createColourSwatchArray("Yellow","Grey"));
+		product7.setColorSwatches(createColourSwatchArray("black"));
 		
 		product1.setPrice(makePrice("1.99", "5.99", "GBP"));
 		product2.setPrice(makePrice("10.00","20.50","GBP"));
 		product3.setPrice(makePrice("50.00", "100.00", "EUR","90.00"));
 		product4.setPrice(makePrice("50.50", "100.00", "GBP","90.00","85.50"));
 		product5.setPrice(makePrice("invalid","","","","GBP"));
+		product6.setPrice(makePrice("1.99", "", "GBP")); // No was price - filter out
+		product7.setPrice(makePrice("fifty", "forty", "GBP")); // Invalid price
 		
 				
 		products.add(product1);
@@ -55,6 +61,8 @@ public class ProductFetchControllerTest {
 		products.add(product3);
 		products.add(product4);
 		products.add(product5);
+		products.add(product6);
+		products.add(product7);
 		
 		Mockito.when(productFetcher.getProducts()).thenReturn(products);
 	}
@@ -77,13 +85,11 @@ public class ProductFetchControllerTest {
 		assertEquals("Green", "008000", product2.getColorSwatches()[0].getRgbColor());
 		assertEquals("Brown", "A52A2A", product2.getColorSwatches()[1].getRgbColor());
 		
-		assertEquals("Orange", "FFA500", product3.getColorSwatches()[0].getRgbColor());
-		assertEquals("Blue", "0000FF", product3.getColorSwatches()[1].getRgbColor());
+		assertEquals("Swatch array length for no swatches", 0, product3.getColorSwatches().length);
 		
 		assertEquals("Grey", "808080", product4.getColorSwatches()[0].getRgbColor());
 		
-		assertEquals("Swatch array length for no swatches", 0, product5.getColorSwatches().length);
-			
+		assertEquals("Black", "000000", product5.getColorSwatches()[0].getRgbColor());
 	}
 	
 	@Test

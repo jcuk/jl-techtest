@@ -28,16 +28,14 @@ public class ProductFetchController {
 	public List<Product> getDiscountedProducts(final PriceFormat priceFormat) {
 		final List<Product> products = productFetcher.getProducts();
 
-		//TODO: Filter non discount items
 		//TODO: sort by highest price reduction
 		
 		LOG.info("Retrieved {} products from api",products.size());
 		
 		return productFetcher.getProducts().stream()
-				.map((p) -> {
-					this.enrichLabel(p, priceFormat);
-					return p;
-				})
+				.filter(p -> hasPriceReduction(p))
+				// Fill in labels and colours on products
+				.map((p) -> enrichLabel(p, priceFormat))
 				.collect(Collectors.toList());
 
 	}
@@ -46,12 +44,12 @@ public class ProductFetchController {
 	 * <ul>
 	 * <li>Looking up the RGB colour</li>
 	 * <li>Populating the now price</li>
-	 * <li>populating the price label (TBD)</li>
+	 * <li>populating the price label</li>
 	 * </ul>
 	 * @param product
 	 * @param PriceFormat for the price label
 	 */
-	private void enrichLabel(final Product product, final PriceFormat format) {
+	private Product enrichLabel(final Product product, final PriceFormat format) {
 		//Populate the RGB information on the swatches
 		for (final ColorSwatch swatch : product.getColorSwatches()) {
 			swatch.setRgbColor(rgbColourHelper.colourToRGB(swatch.getBasicColor()));
@@ -63,12 +61,23 @@ public class ProductFetchController {
 			product.setNowPrice(PriceLabelFormatter.formatCurrencyIgnoreErrors(price.getNow(), price.getCurrency()));
 			
 			//Populate the 'priceLabel' according to the selected format
-			//TODO: select format
 			product.setPriceLabel(PriceLabelFormatter.format(price, format));
 		}
 		
-
-		
+		return product;
 	}
+	
+	/** Return true if the product has a price reduction i.e. if both the was and the
+	 * now field are present on the price
+	 * @param product
+	 * @return
+	 */
+	private boolean hasPriceReduction(final Product product) {
+		return 	product.getPrice() != null &&
+				product.getPrice().getWas() != null &&
+				product.getPrice().getNow() != null &&
+				!product.getPrice().getNow().isEmpty() &&
+				!product.getPrice().getWas().isEmpty();
 
+	}
 }
